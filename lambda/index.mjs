@@ -28,6 +28,15 @@ export async function handler(event) {
 
         console.log(`Processing file from bucket: ${bucketName}, key: ${objectKey}`);
 
+        // Ensure the file is from the sources/ folder
+        if (!objectKey.startsWith("sources/")) {
+            console.log(`File ${objectKey} is not in the sources/ folder. Skipping.`);
+            return {
+            statusCode: 200,
+            body: JSON.stringify({ message: "File not in sources/ folder. Skipping." }),
+            };
+        }
+
         if (objectKey.startsWith("processed/")) {
             console.log(`File ${objectKey} is already in the processed/ folder. Skipping.`);
             return {
@@ -68,7 +77,8 @@ export async function handler(event) {
         }
 
         // Move the file to the processed/ prefix
-        const processedKey = `processed/${objectKey}`;
+        const fileName = objectKey.split('/').pop();
+        const processedKey = `processed/${fileName}`;
         console.log(`Moving file to: ${processedKey}`);
 
         // Copy the object
