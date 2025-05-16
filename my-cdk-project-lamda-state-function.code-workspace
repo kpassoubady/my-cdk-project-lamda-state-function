@@ -1,0 +1,9 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "my-cdk-project-lamda-state-function"
+		}
+	],
+	"settings": {}
+}
